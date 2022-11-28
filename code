@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+class function_and_operator_overloading{
+protected:
+    int a,b;
+public:
+    function_and_operator_overloading(int x,int y){
+        a=x;
+        b=y;
+    }
+    //Compile time polymorphism
+    //function overloading
+    int add(int a,int b){
+        cout<<"Function called int add(int a,int b) is used"<<endl;
+        return a+b;
+    }
+//    int add(int a,float b){
+//        return a+b;
+//    }
+//    float add(int a,int b){//Functions that differ only in their return type can't be overloaded
+//        return a+b;
+//    }
+//    float add(float a,float b){
+//        return a+b;
+//    }
+    int add(float a,float b){
+        cout<<"Function called int add(float a,float b) is used"<<endl;
+        return a+b;
+    }
+    float add(int a,float b){
+        cout<<"Function called float add(int a,float b) is used"<<endl;
+        return a+b;
+    }
+    //operator overloading
+    function_and_operator_overloading operator +(function_and_operator_overloading object){
+        function_and_operator_overloading temp(0,0);
+        temp.a=a+object.a;
+        temp.b=b+object.b;
+        return(temp);
+    }
+    void show_data(){
+        cout<<"Value of a is: "<<a<<endl;
+        cout<<"Value of b is: "<<b<<endl;
+    }
+    //Runtime Polymorphism
+    virtual void show(){
+        cout<<"This is Parent Class"<<endl;
+    }
+    void print(){
+        cout<<"This is parent class"<<endl;
+    }
+};
+class derived:public function_and_operator_overloading{
+public:
+    derived(int m=0,int n=0): function_and_operator_overloading(a,b){}
+    void show(){
+        cout<<"This is derived class"<<endl;
+    }
+    void print(){
+        cout<<"This is derived class"<<endl;
+    }
+};
+int main() {
+    function_and_operator_overloading obj1(0,0);
+    int x;
+//    obj1.add(3,2);
+    x=obj1.add(3,2);
+    cout<<x<<endl;
+//    obj1.add(3.14,2);
+    x=obj1.add(3.14,2);
+    cout<<x<<endl;
+//    x=obj1.add(3,2.14);
+//    obj1.add(3,2.14); //call to member function add is ambiguous
+//    obj1.add(3.14,2.14);
+    function_and_operator_overloading obj2(1,2);
+    function_and_operator_overloading obj3(2,3);
+    function_and_operator_overloading obj4(0,0);
+    obj4=obj2.operator+(obj3);
+    obj4.show_data();
+    function_and_operator_overloading *ptr;
+    derived obj5(0,0);
+    ptr=&obj5;
+    ptr->show();
+    ptr->print();
+    return 0;
+}
